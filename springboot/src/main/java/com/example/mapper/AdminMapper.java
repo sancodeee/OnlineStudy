@@ -31,6 +31,12 @@ public interface AdminMapper extends BaseMapper<Admin> {
      */
     List<Admin> selectAll(Admin admin);
 
+    /**
+     * 按用户名选择
+     *
+     * @param username 用户名
+     * @return {@link Admin}
+     */
     @Select("select * from admin where username = #{username}")
     Admin selectByUsername(String username);
 }

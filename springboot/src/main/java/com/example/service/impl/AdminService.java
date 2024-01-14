@@ -92,12 +92,17 @@ public class AdminService {
 
     /**
      * 登录
+     *
+     * @param account 账户
+     * @return {@link Account}
      */
     public Account login(Account account) {
         Account dbAdmin = adminMapper.selectByUsername(account.getUsername());
+        // 验证用户是否存在
         if (ObjectUtil.isNull(dbAdmin)) {
             throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
         }
+        // 验证登录密码是否正确
         if (!account.getPassword().equals(dbAdmin.getPassword())) {
             throw new CustomException(ResultCodeEnum.USER_ACCOUNT_ERROR);
         }
@@ -110,11 +115,13 @@ public class AdminService {
 
     /**
      * 注册
+     *
+     * @param account 账户
      */
     public void register(Account account) {
         Admin admin = new Admin();
         BeanUtils.copyProperties(account, admin);
-        add(admin);
+        this.add(admin);
     }
 
     /**
