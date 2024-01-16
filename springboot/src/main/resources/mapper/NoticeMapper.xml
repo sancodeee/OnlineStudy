@@ -52,23 +52,4 @@
         </trim>
     </insert>
 
-    <update id="updateById" parameterType="com.example.entity.Notice">
-        update notice
-        <set>
-            <if test="title != null">
-                title = #{title},
-            </if>
-            <if test="content != null">
-                content = #{content},
-            </if>
-            <if test="time != null">
-                time = #{time},
-            </if>
-            <if test="user != null">
-                user = #{user},
-            </if>
-        </set>
-        where id = #{id} 
-    </update>
-
 </mapper>

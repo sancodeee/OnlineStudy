@@ -5,6 +5,7 @@ import com.example.entity.Notice;
 import com.example.service.impl.NoticeService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -50,8 +51,11 @@ public class NoticeController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Notice notice) {
-        noticeService.updateById(notice);
-        return Result.success();
+        if (noticeService.updateById(notice)) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
     }
 
     /**
@@ -67,7 +71,7 @@ public class NoticeController {
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Notice notice ) {
+    public Result selectAll(Notice notice) {
         List<Notice> list = noticeService.selectAll(notice);
         return Result.success(list);
     }

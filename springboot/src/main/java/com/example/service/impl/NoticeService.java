@@ -1,21 +1,23 @@
 package com.example.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Account;
 import com.example.entity.Notice;
 import com.example.mapper.NoticeMapper;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * 公告信息表业务处理
  **/
 @Service
-public class NoticeService {
+public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
     @Resource
     private NoticeMapper noticeMapper;
@@ -46,12 +48,6 @@ public class NoticeService {
         }
     }
 
-    /**
-     * 修改
-     */
-    public void updateById(Notice notice) {
-        noticeMapper.updateById(notice);
-    }
 
     /**
      * 根据ID查询

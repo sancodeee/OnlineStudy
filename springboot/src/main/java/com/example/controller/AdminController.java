@@ -54,8 +54,12 @@ public class AdminController {
      */
     @PutMapping("/update")
     public Result updateById(@RequestBody Admin admin) {
-        adminService.updateById(admin);
-        return Result.success();
+        if (adminService.updateById(admin)) {
+            return Result.success();
+        } else {
+            return Result.error();
+        }
+
     }
 
     /**

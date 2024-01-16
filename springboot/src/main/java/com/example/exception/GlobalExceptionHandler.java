@@ -18,7 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice(basePackages = "com.example.controller")
 public class GlobalExceptionHandler {
 
-    //统一异常处理@ExceptionHandler,主要用于Exception
+    /**
+     * 统一异常处理@ExceptionHandler,主要用于Exception
+     *
+     * @param request 请求
+     * @param e       e
+     * @return {@link Result}
+     */
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result error(HttpServletRequest request, Exception e) {
