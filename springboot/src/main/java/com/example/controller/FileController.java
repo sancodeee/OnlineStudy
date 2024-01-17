@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.List;
 
 /**
  * 文件接口
@@ -59,7 +58,6 @@ public class FileController {
         //  http://localhost:9090/files/1697438073596-avatar.png
         return Result.success(http + flag + "-" + fileName);
     }
-
 
     /**
      * 获取文件
