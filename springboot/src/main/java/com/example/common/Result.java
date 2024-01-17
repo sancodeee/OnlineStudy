@@ -1,6 +1,11 @@
 package com.example.common;
 
 import com.example.common.enums.ResultCodeEnum;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * 结果
@@ -8,74 +13,58 @@ import com.example.common.enums.ResultCodeEnum;
  * @author wangsen
  * @date 2024/01/14
  */
-public class Result {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Result<T> implements Serializable {
     private String code;
     private String msg;
-    private Object data;
+    private T data;
 
-    private Result(Object data) {
+    private Result(T data) {
         this.data = data;
     }
 
-    public Result() {
-    }
-
-    public static Result success() {
-        Result tResult = new Result();
+    public static <T> Result<T> success() {
+        Result<T> tResult = new Result<T>();
         tResult.setCode(ResultCodeEnum.SUCCESS.code);
         tResult.setMsg(ResultCodeEnum.SUCCESS.msg);
         return tResult;
     }
 
-    public static Result success(Object data) {
-        Result tResult = new Result(data);
+    public static <T> Result<T> success(T data) {
+        Result<T> tResult = new Result<T>(data);
         tResult.setCode(ResultCodeEnum.SUCCESS.code);
         tResult.setMsg(ResultCodeEnum.SUCCESS.msg);
         return tResult;
     }
 
-    public static Result error() {
-        Result tResult = new Result();
+    public static <T> Result<T> success(String code, String msg, T data) {
+        Result<T> tResult = new Result<T>();
+        tResult.setCode(code);
+        tResult.setMsg(msg);
+        tResult.setData(data);
+        return tResult;
+    }
+
+    public static <T> Result<T> error() {
+        Result<T> tResult = new Result<T>();
         tResult.setCode(ResultCodeEnum.SYSTEM_ERROR.code);
         tResult.setMsg(ResultCodeEnum.SYSTEM_ERROR.msg);
         return tResult;
     }
 
-    public static Result error(String code, String msg) {
-        Result tResult = new Result();
+    public static <T> Result<T> error(String code, String msg) {
+        Result<T> tResult = new Result<T>();
         tResult.setCode(code);
         tResult.setMsg(msg);
         return tResult;
     }
 
-    public static Result error(ResultCodeEnum resultCodeEnum) {
-        Result tResult = new Result();
+    public static <T> Result<T> error(ResultCodeEnum resultCodeEnum) {
+        Result<T> tResult = new Result<T>();
         tResult.setCode(resultCodeEnum.code);
         tResult.setMsg(resultCodeEnum.msg);
         return tResult;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
     }
 }

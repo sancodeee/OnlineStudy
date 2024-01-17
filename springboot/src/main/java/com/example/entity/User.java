@@ -8,19 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-/**
- * 管理员
- *
- * @author wangsen
- * @date 2024/01/15
- */
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@TableName("admin")
-public class Admin extends Account implements Serializable {
+@TableName(value = "user")
+public class User extends Account implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -36,24 +29,36 @@ public class Admin extends Account implements Serializable {
      */
     private String password;
     /**
-     * 姓名
+     * 名字。
      */
     private String name;
-    /**
-     * 电话
-     */
-    private String phone;
-    /**
-     * 邮箱
-     */
-    private String email;
     /**
      * 头像
      */
     private String avatar;
     /**
-     * 角色标识
+     * 角色
      */
     private String role;
+    /**
+     * 电话
+     */
+    private String phone;
+    /**
+     * 电子邮件
+     */
+    private String email;
+    /**
+     * 成员
+     */
+    private String member;
+    /**
+     * 分数
+     */
+    private Integer score;
+    /**
+     * 账户
+     */
+    private Double account;
 
 }
