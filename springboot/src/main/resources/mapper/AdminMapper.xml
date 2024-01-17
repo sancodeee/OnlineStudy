@@ -36,28 +36,4 @@
         where  id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="com.example.entity.Admin" useGeneratedKeys="true">
-        insert into admin
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-                <if test="id != null">id,</if>
-                <if test="username != null">username,</if>
-                <if test="password != null">password,</if>
-                <if test="name != null">name,</if>
-                <if test="phone != null">phone,</if>
-                <if test="email != null">email,</if>
-                <if test="avatar != null">avatar,</if>
-                <if test="role != null">role,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-                <if test="id != null">#{id},</if>
-                <if test="username != null">#{username},</if>
-                <if test="password != null">#{password},</if>
-                <if test="name != null">#{name},</if>
-                <if test="phone != null">#{phone},</if>
-                <if test="email != null">#{email},</if>
-                <if test="avatar != null">#{avatar},</if>
-                <if test="role != null">#{role},</if>
-        </trim>
-    </insert>
-
 </mapper>
