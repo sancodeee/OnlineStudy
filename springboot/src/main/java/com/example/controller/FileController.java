@@ -31,6 +31,9 @@ public class FileController {
 
     /**
      * 文件上传
+     *
+     * @param file 文件
+     * @return {@link Result}
      */
     @PostMapping("/upload")
     public Result upload(MultipartFile file) {
@@ -45,31 +48,33 @@ public class FileController {
                 FileUtil.mkdir(filePath);
             }
             // 文件存储形式：时间戳-文件名
-            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);  // ***/manager/files/1697438073596-avatar.png
+            // ***/manager/files/1697438073596-avatar.png
+            FileUtil.writeBytes(file.getBytes(), filePath + flag + "-" + fileName);
             System.out.println(fileName + "--上传成功");
-
         } catch (Exception e) {
             System.err.println(fileName + "--文件上传失败");
         }
+        // 下载路径
         String http = "http://" + ip + ":" + port + "/files/";
-        return Result.success(http + flag + "-" + fileName);  //  http://localhost:9090/files/1697438073596-avatar.png
+        //  http://localhost:9090/files/1697438073596-avatar.png
+        return Result.success(http + flag + "-" + fileName);
     }
 
 
     /**
      * 获取文件
      *
-     * @param flag
-     * @param response
+     * @param response 响应
+     * @param fileName 文件名称
      */
-    @GetMapping("/{flag}")   //  1697438073596-avatar.png
-    public void avatarPath(@PathVariable String flag, HttpServletResponse response) {
+    @GetMapping("/{fileName}")   //  1697438073596-avatar.png
+    public void avatarPath(@PathVariable String fileName, HttpServletResponse response) {
         OutputStream os;
         try {
-            if (StrUtil.isNotEmpty(flag)) {
-                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(flag, "UTF-8"));
+            if (StrUtil.isNotEmpty(fileName)) {
+                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
                 response.setContentType("application/octet-stream");
-                byte[] bytes = FileUtil.readBytes(filePath + flag);
+                byte[] bytes = FileUtil.readBytes(filePath + fileName);
                 os = response.getOutputStream();
                 os.write(bytes);
                 os.flush();
@@ -83,12 +88,12 @@ public class FileController {
     /**
      * 删除文件
      *
-     * @param flag
+     * @param fileName 文件名称
      */
-    @DeleteMapping("/{flag}")
-    public void delFile(@PathVariable String flag) {
-        FileUtil.del(filePath + flag);
-        System.out.println("删除文件" + flag + "成功");
+    @DeleteMapping("/{fileName}")
+    public void delFile(@PathVariable String fileName) {
+        FileUtil.del(filePath + fileName);
+        System.out.println("删除文件" + fileName + "成功");
     }
 
 

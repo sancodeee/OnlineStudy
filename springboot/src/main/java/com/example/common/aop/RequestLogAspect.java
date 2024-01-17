@@ -52,7 +52,7 @@ public class RequestLogAspect {
         // 封装成requestLog对象
         RequestLogDTO requestLogDTO = new RequestLogDTO(url, ip, classMethod, args);
         // 打印信息
-        log.info("==============请求开始=============");
+        log.info("=====================请求开始=====================");
         log.info("请求信息：{}", requestLogDTO);
     }
 
