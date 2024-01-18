@@ -15,7 +15,14 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class CustomException extends RuntimeException {
+
+    /**
+     * 代码
+     */
     private String code;
+    /**
+     * 消息
+     */
     private String msg;
 
     public CustomException(ResultCodeEnum resultCodeEnum) {

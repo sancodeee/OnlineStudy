@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result<?> error(HttpServletRequest request, Exception e) {
         log.error("异常信息：", e);
-        return Result.error();
+        return Result.error("500", "服务器发生不明异常");
     }
 
     @ExceptionHandler(CustomException.class)
