@@ -4,9 +4,9 @@ import com.example.common.Result;
 import com.example.entity.Admin;
 import com.example.service.impl.AdminService;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,14 +19,18 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Resource
-    private AdminService adminService;
+    private final AdminService adminService;
+
+    @Autowired
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     /**
      * 新增
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Admin admin) {
+    public Result<?> add(@RequestBody Admin admin) {
         adminService.add(admin);
         return Result.success();
     }
@@ -35,7 +39,7 @@ public class AdminController {
      * 删除
      */
     @DeleteMapping("/delete/{id}")
-    public Result deleteById(@PathVariable Integer id) {
+    public Result<?> deleteById(@PathVariable Integer id) {
         adminService.deleteById(id);
         return Result.success();
     }
@@ -44,7 +48,7 @@ public class AdminController {
      * 批量删除
      */
     @DeleteMapping("/delete/batch")
-    public Result deleteBatch(@RequestBody List<Integer> ids) {
+    public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
         adminService.deleteBatch(ids);
         return Result.success();
     }
@@ -53,7 +57,7 @@ public class AdminController {
      * 修改
      */
     @PutMapping("/update")
-    public Result updateById(@RequestBody Admin admin) {
+    public Result<?> updateById(@RequestBody Admin admin) {
         if (adminService.updateById(admin)) {
             return Result.success();
         } else {
@@ -66,7 +70,7 @@ public class AdminController {
      * 根据ID查询
      */
     @GetMapping("/selectById/{id}")
-    public Result selectById(@PathVariable Integer id) {
+    public Result<?> selectById(@PathVariable Integer id) {
         Admin admin = adminService.selectById(id);
         return Result.success(admin);
     }
@@ -75,7 +79,7 @@ public class AdminController {
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Admin admin) {
+    public Result<?> selectAll(Admin admin) {
         List<Admin> list = adminService.selectAll(admin);
         return Result.success(list);
     }
@@ -84,7 +88,7 @@ public class AdminController {
      * 分页查询
      */
     @GetMapping("/selectPage")
-    public Result selectPage(Admin admin,
+    public Result<?> selectPage(Admin admin,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<Admin> page = adminService.selectPage(admin, pageNum, pageSize);

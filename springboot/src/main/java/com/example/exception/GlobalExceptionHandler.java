@@ -2,9 +2,8 @@ package com.example.exception;
 
 import com.example.common.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2024/01/14
  */
 @Slf4j
-@ControllerAdvice(basePackages = "com.example.controller")
+@RestControllerAdvice(basePackages = "com.example.controller")
 public class GlobalExceptionHandler {
 
     /**
@@ -26,15 +25,13 @@ public class GlobalExceptionHandler {
      * @return {@link Result}
      */
     @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public Result error(HttpServletRequest request, Exception e) {
+    public Result<?> error(HttpServletRequest request, Exception e) {
         log.error("异常信息：", e);
         return Result.error();
     }
 
     @ExceptionHandler(CustomException.class)
-    @ResponseBody
-    public Result customError(HttpServletRequest request, CustomException e) {
+    public Result<?> customError(HttpServletRequest request, CustomException e) {
         return Result.error(e.getCode(), e.getMsg());
     }
 }

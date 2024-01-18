@@ -7,9 +7,8 @@ import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
 import com.example.service.impl.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 /**
  * 基础前端接口
@@ -20,11 +19,15 @@ import javax.annotation.Resource;
 @RestController
 public class WebController {
 
-    @Resource
-    private AdminService adminService;
+    private final AdminService adminService;
+
+    @Autowired
+    public WebController(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @GetMapping("/")
-    public Result hello() {
+    public Result<?> hello() {
         return Result.success("访问成功");
     }
 
@@ -32,7 +35,7 @@ public class WebController {
      * 登录
      */
     @PostMapping("/login")
-    public Result login(@RequestBody Account account) {
+    public Result<?> login(@RequestBody Account account) {
         if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())
                 || ObjectUtil.isEmpty(account.getRole())) {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
@@ -47,7 +50,7 @@ public class WebController {
      * 注册
      */
     @PostMapping("/register")
-    public Result register(@RequestBody Account account) {
+    public Result<?> register(@RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
                 || ObjectUtil.isEmpty(account.getRole())) {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
@@ -63,7 +66,7 @@ public class WebController {
      * 修改密码
      */
     @PutMapping("/updatePassword")
-    public Result updatePassword(@RequestBody Account account) {
+    public Result<?> updatePassword(@RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
                 || ObjectUtil.isEmpty(account.getNewPassword())) {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);

@@ -12,10 +12,10 @@ import com.example.entity.Account;
 import com.example.exception.CustomException;
 import com.example.service.impl.AdminService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,8 +29,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
-    @Resource
-    private AdminService adminService;
+    private final AdminService adminService;
+
+    @Autowired
+    public JwtInterceptor(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

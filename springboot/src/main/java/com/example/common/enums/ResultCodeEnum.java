@@ -25,7 +25,7 @@ public enum ResultCodeEnum {
     public final String code;
     public final String msg;
 
-    ResultCodeEnum(String code, String msg) {
+     ResultCodeEnum(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }

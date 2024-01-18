@@ -7,6 +7,8 @@ package com.example.common.enums;
  * @date 2024/01/14
  */
 public enum RoleEnum {
-    // 管理员
+    /**
+     * 管理员
+     */
     ADMIN,
 }
