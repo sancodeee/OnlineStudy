@@ -76,7 +76,7 @@ public class NoticeController {
     }
 
     /**
-     * 查询所有
+     * 查询满足条件的所有
      */
     @GetMapping("/selectAll")
     public Result<?> selectAll(Notice notice) {

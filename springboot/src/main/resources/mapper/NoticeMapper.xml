@@ -22,17 +22,4 @@
         order by id desc
     </select>
 
-    <select id="selectById" resultType="com.example.entity.Notice">
-        select
-        <include refid="Base_Column_List" />
-        from notice
-        where id = #{id}
-    </select>
-
-    <delete id="deleteById">
-        delete from notice
-        where  id = #{id}
-    </delete>
-
-
 </mapper>

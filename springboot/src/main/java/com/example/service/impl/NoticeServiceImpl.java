@@ -2,8 +2,10 @@ package com.example.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.Account;
 import com.example.entity.Notice;
+import com.example.exception.CustomException;
 import com.example.mapper.NoticeMapper;
 import com.example.service.NoticeService;
 import com.example.utils.TokenUtils;
@@ -11,6 +13,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -34,22 +37,26 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         notice.setTime(DateUtil.today());
         Account currentUser = TokenUtils.getCurrentUser();
         notice.setUser(currentUser.getUsername());
-        noticeMapper.insert(notice);
+        if (noticeMapper.insert(notice) == 0) {
+            throw new CustomException("500", "插入失败");
+        }
     }
 
     /**
      * 删除
      */
     public void deleteById(Integer id) {
-        noticeMapper.deleteById(id);
+        if (noticeMapper.deleteById(id) == 0) {
+            throw new CustomException("500", "删除失败");
+        }
     }
 
     /**
      * 批量删除
      */
     public void deleteBatch(List<Integer> ids) {
-        for (Integer id : ids) {
-            noticeMapper.deleteById(id);
+        if (noticeMapper.deleteBatchIds(ids) == 0) {
+            throw new CustomException("500", "批量删除失败");
         }
     }
 
@@ -57,11 +64,15 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
      * 根据ID查询
      */
     public Notice selectById(Integer id) {
-        return noticeMapper.selectById(id);
+        Notice notice = noticeMapper.selectById(id);
+        if (ObjectUtils.isEmpty(notice)) {
+            throw new CustomException(ResultCodeEnum.RESOURCE_ERROR.code, ResultCodeEnum.RESOURCE_ERROR.msg);
+        }
+        return notice;
     }
 
     /**
-     * 查询所有
+     * 查询符合条件的所有
      */
     public List<Notice> selectAll(Notice notice) {
         return noticeMapper.selectAll(notice);
