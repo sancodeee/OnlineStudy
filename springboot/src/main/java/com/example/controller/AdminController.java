@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.common.Result;
 import com.example.entity.Admin;
-import com.example.service.impl.AdminService;
+import com.example.service.impl.AdminServiceImpl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +19,11 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final AdminService adminService;
+    private final AdminServiceImpl adminServiceImpl;
 
     @Autowired
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
+    public AdminController(AdminServiceImpl adminServiceImpl) {
+        this.adminServiceImpl = adminServiceImpl;
     }
 
     /**
@@ -31,7 +31,7 @@ public class AdminController {
      */
     @PostMapping("/add")
     public Result<?> add(@RequestBody Admin admin) {
-        adminService.add(admin);
+        adminServiceImpl.add(admin);
         return Result.success();
     }
 
@@ -40,7 +40,7 @@ public class AdminController {
      */
     @DeleteMapping("/delete/{id}")
     public Result<?> deleteById(@PathVariable Integer id) {
-        adminService.deleteById(id);
+        adminServiceImpl.deleteById(id);
         return Result.success();
     }
 
@@ -49,7 +49,7 @@ public class AdminController {
      */
     @DeleteMapping("/delete/batch")
     public Result<?> deleteBatch(@RequestBody List<Integer> ids) {
-        adminService.deleteBatch(ids);
+        adminServiceImpl.deleteBatch(ids);
         return Result.success();
     }
 
@@ -58,7 +58,7 @@ public class AdminController {
      */
     @PutMapping("/update")
     public Result<?> updateById(@RequestBody Admin admin) {
-        if (adminService.updateById(admin)) {
+        if (adminServiceImpl.updateById(admin)) {
             return Result.success();
         } else {
             return Result.error();
@@ -71,7 +71,7 @@ public class AdminController {
      */
     @GetMapping("/selectById/{id}")
     public Result<?> selectById(@PathVariable Integer id) {
-        Admin admin = adminService.selectById(id);
+        Admin admin = adminServiceImpl.selectById(id);
         return Result.success(admin);
     }
 
@@ -80,7 +80,7 @@ public class AdminController {
      */
     @GetMapping("/selectAll")
     public Result<?> selectAll(Admin admin) {
-        List<Admin> list = adminService.selectAll(admin);
+        List<Admin> list = adminServiceImpl.selectAll(admin);
         return Result.success(list);
     }
 
@@ -91,7 +91,7 @@ public class AdminController {
     public Result<?> selectPage(Admin admin,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageInfo<Admin> page = adminService.selectPage(admin, pageNum, pageSize);
+        PageInfo<Admin> page = adminServiceImpl.selectPage(admin, pageNum, pageSize);
         return Result.success(page);
     }
 

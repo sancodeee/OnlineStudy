@@ -6,7 +6,7 @@ import com.example.common.Result;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
-import com.example.service.impl.AdminService;
+import com.example.service.impl.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class WebController {
 
-    private final AdminService adminService;
+    private final AdminServiceImpl adminServiceImpl;
 
     @Autowired
-    public WebController(AdminService adminService) {
-        this.adminService = adminService;
+    public WebController(AdminServiceImpl adminServiceImpl) {
+        this.adminServiceImpl = adminServiceImpl;
     }
 
     @GetMapping("/")
@@ -41,7 +41,7 @@ public class WebController {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
         }
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
-            account = adminService.login(account);
+            account = adminServiceImpl.login(account);
         }
         return Result.success(account);
     }
@@ -57,7 +57,7 @@ public class WebController {
         }
         // 校验注册用户是否是管理员
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
-            adminService.register(account);
+            adminServiceImpl.register(account);
         }
         return Result.success();
     }
@@ -72,7 +72,7 @@ public class WebController {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
         }
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
-            adminService.updatePassword(account);
+            adminServiceImpl.updatePassword(account);
         }
         return Result.success();
     }

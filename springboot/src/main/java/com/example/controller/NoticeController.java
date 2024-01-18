@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.common.Result;
 import com.example.entity.Notice;
-import com.example.service.impl.NoticeService;
+import com.example.service.NoticeService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +25,7 @@ public class NoticeController {
     public NoticeController(NoticeService noticeService) {
         this.noticeService = noticeService;
     }
+
 
     /**
      * 新增

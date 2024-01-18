@@ -9,23 +9,28 @@ import com.example.entity.Account;
 import com.example.entity.Admin;
 import com.example.exception.CustomException;
 import com.example.mapper.AdminMapper;
+import com.example.service.AdminService;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * 管理员业务处理
  **/
 @Service
-public class AdminService extends ServiceImpl<AdminMapper, Admin> {
+public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements AdminService {
 
-    @Resource
-    private AdminMapper adminMapper;
+    private final AdminMapper adminMapper;
+
+    @Autowired
+    public AdminServiceImpl(AdminMapper adminMapper) {
+        this.adminMapper = adminMapper;
+    }
 
     /**
      * 新增

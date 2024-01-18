@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Account;
 import com.example.entity.Notice;
 import com.example.mapper.NoticeMapper;
+import com.example.service.NoticeService;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -17,12 +18,12 @@ import java.util.List;
  * 公告信息表业务处理
  **/
 @Service
-public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
+public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements NoticeService {
 
     private final NoticeMapper noticeMapper;
 
     @Autowired
-    public NoticeService(NoticeMapper noticeMapper) {
+    public NoticeServiceImpl(NoticeMapper noticeMapper) {
         this.noticeMapper = noticeMapper;
     }
 
