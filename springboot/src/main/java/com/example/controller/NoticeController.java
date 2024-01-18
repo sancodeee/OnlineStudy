@@ -26,7 +26,6 @@ public class NoticeController {
         this.noticeService = noticeService;
     }
 
-
     /**
      * 新增
      */
