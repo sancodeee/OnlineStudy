@@ -8,9 +8,9 @@ import com.example.mapper.NoticeMapper;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,8 +19,12 @@ import java.util.List;
 @Service
 public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
-    @Resource
-    private NoticeMapper noticeMapper;
+    private final NoticeMapper noticeMapper;
+
+    @Autowired
+    public NoticeService(NoticeMapper noticeMapper) {
+        this.noticeMapper = noticeMapper;
+    }
 
     /**
      * 新增
@@ -47,7 +51,6 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
             noticeMapper.deleteById(id);
         }
     }
-
 
     /**
      * 根据ID查询
