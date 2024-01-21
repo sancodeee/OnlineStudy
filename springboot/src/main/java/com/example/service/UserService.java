@@ -1,0 +1,15 @@
+package com.example.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.entity.User;
+
+public interface UserService extends IService<User> {
+
+    /**
+     * 添加
+     *
+     * @param user 用户
+     */
+    void add(User user);
+
+}

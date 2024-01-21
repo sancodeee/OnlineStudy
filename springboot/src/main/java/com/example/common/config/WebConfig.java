@@ -42,16 +42,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/files/**");
     }
 
-    /**
-     * Mybatis-plus拦截器
-     *
-     * @return {@link MybatisPlusInterceptor}
-     */
-    @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
-        return interceptor;
-    }
-
 }
