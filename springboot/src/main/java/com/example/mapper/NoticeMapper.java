@@ -16,17 +16,7 @@ import java.util.List;
 public interface NoticeMapper extends BaseMapper<Notice> {
 
     /**
-     * 删除
-     */
-    int deleteById(Integer id);
-
-    /**
-     * 根据ID查询
-     */
-    Notice selectById(Integer id);
-
-    /**
-     * 查询所有
+     * 查询符合条件的所有
      */
     List<Notice> selectAll(Notice notice);
 

@@ -52,7 +52,7 @@ public class RequestLogAspect {
         // 封装成requestLog对象
         RequestLogDTO requestLogDTO = new RequestLogDTO(url, ip, classMethod, args);
         // 打印信息
-        log.info("=====================请求开始=====================");
+        log.info("======================请求开始=====================");
         log.info("请求信息：{}", requestLogDTO);
     }
 
@@ -61,7 +61,8 @@ public class RequestLogAspect {
         long endTime = System.currentTimeMillis();
         // 请求响应时间计算
         long duration = endTime - startTime;
-        log.info("==============请求结束，响应时间:{}(ms)=============", duration);
+        log.info("====================响应时间:{}(ms)================", duration);
+        log.info("======================请求结束=====================");
     }
 
     /**
@@ -73,7 +74,7 @@ public class RequestLogAspect {
      */
     @AfterReturning(returning = "res", pointcut = "log()")
     public void afterReturn(Object res) {
-        log.info("ResponseResult：{}", res);
+        log.info("接口响应结果：{}", res);
     }
 
 }

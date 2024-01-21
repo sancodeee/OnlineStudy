@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 文件接口
+ *
+ * @author wangsen
+ * @date 2024/01/18
  */
 @RestController
 @RequestMapping("/files")
@@ -53,11 +56,12 @@ public class FileController {
      * @param fileName 文件名称
      */
     @DeleteMapping("/{fileName}")
-    public void delFile(@PathVariable String fileName) {
+    public Result<?> delFile(@PathVariable String fileName) {
         if (StringUtil.isEmpty(fileName)) {
             Result.error(ResultCodeEnum.PARAM_LOST_ERROR.code, "文件名为空");
         }
         fileService.delFile(fileName);
+        return Result.success();
     }
 
 

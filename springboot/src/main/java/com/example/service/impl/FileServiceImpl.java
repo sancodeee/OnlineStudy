@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.controller.FileController;
+import com.example.exception.CustomException;
 import com.example.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +22,10 @@ public class FileServiceImpl implements FileService {
     // 文件上传存储路径
     private static final String filePath = System.getProperty("user.dir") + "/files/";
 
-    @Value("${server.port:9090}")
+    @Value("${server.port}")
     private String port;
 
-    @Value("${ip:localhost}")
+    @Value("${ip}")
     private String ip;
 
     /**
@@ -83,12 +84,13 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void delFile(String fileName) {
-        boolean del = FileUtil.del(filePath + fileName);
-        if (!del) {
+    public boolean delFile(String fileName) {
+        if (!FileUtil.del(filePath + fileName)) {
             log.error("删除文件" + fileName + "失败");
+            throw new CustomException("500", "删除失败");
         }
         log.info("删除文件" + fileName + "成功");
+        return true;
     }
 
 

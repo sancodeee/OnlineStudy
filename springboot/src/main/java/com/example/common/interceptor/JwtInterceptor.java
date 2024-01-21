@@ -10,12 +10,12 @@ import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
 import com.example.exception.CustomException;
-import com.example.service.impl.AdminService;
+import com.example.service.impl.AdminServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,8 +29,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
-    @Resource
-    private AdminService adminService;
+    private final AdminServiceImpl adminServiceImpl;
+
+    @Autowired
+    public JwtInterceptor(AdminServiceImpl adminServiceImpl) {
+        this.adminServiceImpl = adminServiceImpl;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -52,7 +56,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             String role = userRole.split("-")[1];
             // 根据userId查询数据库
             if (RoleEnum.ADMIN.name().equals(role)) {
-                account = adminService.selectById(Integer.valueOf(userId));
+                account = adminServiceImpl.selectById(Integer.valueOf(userId));
             }
         } catch (Exception e) {
             throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);

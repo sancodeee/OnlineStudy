@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.common.Result;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +28,6 @@ public interface FileService {
      *
      * @param fileName 文件名称
      */
-    void delFile(String fileName);
+    boolean delFile(String fileName);
 
 }

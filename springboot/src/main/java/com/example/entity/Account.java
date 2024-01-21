@@ -62,7 +62,7 @@ public class Account {
     /**
      * 创建人
      */
-    private String creator;
+    private String creator = "default";
 
     /**
      * 更新时间
@@ -74,6 +74,6 @@ public class Account {
     /**
      * 更新人
      */
-    private String updater;
+    private String updater = "default";
 
 }
