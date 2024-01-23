@@ -43,13 +43,13 @@ public class TokenUtils {
     /**
      * 生成token
      *
-     * @param data     数据
-     * @param password 密码
+     * @param tokenData 数据
+     * @param password  密码
      * @return {@link String}
      */
-    public static String createToken(String data, String password) {
+    public static String createToken(String tokenData, String password) {
         // 将 userId-role 保存到 token 里面,作为载荷
-        return JWT.create().withAudience(data)
+        return JWT.create().withAudience(tokenData)
                 // 2小时后token过期
                 .withExpiresAt(DateUtil.offsetHour(new Date(), 2))
                 // 以 password 加密后作为token的密钥

@@ -46,7 +46,6 @@ public class Account {
      * 头像
      */
     private String avatar;
-
     /**
      * 令牌
      */

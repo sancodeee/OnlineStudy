@@ -29,7 +29,7 @@ public class User extends Account implements Serializable {
      */
     private String password;
     /**
-     * 名字。
+     * 名字
      */
     private String name;
     /**
