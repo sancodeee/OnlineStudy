@@ -94,8 +94,7 @@ public class UserController {
      */
     @GetMapping("/selectAll")
     public Result<?> selectAll(User user) {
-        userService.selectAll(user);
-        return Result.success();
+        return Result.success(userService.selectAll(user));
     }
 
     /**
@@ -110,8 +109,7 @@ public class UserController {
     public Result<?> selectPage(User user,
                                 @RequestParam(defaultValue = "1") Integer pageNum,
                                 @RequestParam(defaultValue = "10") Integer pageSize) {
-
-        return null;
+        return Result.success(userService.selectPage(user, pageNum, pageSize));
     }
 
 }

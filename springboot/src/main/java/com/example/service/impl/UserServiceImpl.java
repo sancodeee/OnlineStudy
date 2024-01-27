@@ -12,6 +12,8 @@ import com.example.entity.User;
 import com.example.exception.CustomException;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -116,5 +118,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         Optional.ofNullable(user.getRole()).ifPresent(role -> queryWrapper.eq(User::getRole, role));
         List<User> userList = getBaseMapper().selectList(queryWrapper);
         return CollectionUtils.isEmpty(userList) ? Collections.emptyList() : userList;
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param user     用户
+     * @param pageNum  页码
+     * @param pageSize 页面大小
+     * @return {@link PageInfo}<{@link User}>
+     */
+    @Override
+    public PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> userList = selectAll(user);
+        return PageInfo.of(userList);
     }
 }

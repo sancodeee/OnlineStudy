@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,6 +42,7 @@ public class Account {
     /**
      * 新密码
      */
+    @TableField(exist = false)
     private String newPassword;
     /**
      * 头像
@@ -49,6 +51,7 @@ public class Account {
     /**
      * 令牌
      */
+    @TableField(exist = false)
     private String token;
 
     /**
