@@ -1,6 +1,7 @@
 package com.example.common.interceptor;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -14,6 +15,7 @@ import com.example.service.AdminService;
 import com.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -30,6 +32,9 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
+    @Value("${jwt.flag}")
+    private boolean jwtFlag;
+
     private static AdminService adminService;
 
     private static UserService userService;
@@ -42,14 +47,17 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (!jwtFlag) {
+            return true;
+        }
         // 1. 从http请求的header中获取token
         String token = request.getHeader(Constants.TOKEN);
-        if (ObjectUtil.isEmpty(token)) {
+        if (StrUtil.isBlank(token)) {
             // 如果没拿到，从参数里再拿一次
             token = request.getParameter(Constants.TOKEN);
         }
         // 2. 开始执行认证
-        if (ObjectUtil.isEmpty(token)) {
+        if (StrUtil.isBlank(token)) {
             throw new CustomException(ResultCodeEnum.TOKEN_INVALID_ERROR);
         }
         Account account = null;

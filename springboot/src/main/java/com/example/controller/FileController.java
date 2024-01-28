@@ -4,6 +4,7 @@ import com.example.common.Result;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.service.FileService;
 import com.github.pagehelper.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author wangsen
  * @date 2024/01/18
  */
+@Slf4j
 @RestController
 @RequestMapping("/files")
 public class FileController {
@@ -36,6 +38,7 @@ public class FileController {
     @PostMapping("/upload")
     public Result<?> upload(MultipartFile file) {
         String downloadPath = fileService.upload(file);
+        log.info("路径：" + downloadPath);
         return Result.success(downloadPath);
     }
 

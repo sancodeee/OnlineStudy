@@ -28,4 +28,13 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
+# ip配置
 ip: localhost
+
+# 用户信息
+user:
+  default-avatar-name: defaultAvatar2.png
+
+jwt:
+  # jwt开关
+  flag: true

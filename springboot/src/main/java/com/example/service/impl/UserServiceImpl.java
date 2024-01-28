@@ -16,6 +16,8 @@ import com.example.service.UserService;
 import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -25,6 +27,15 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+
+    @Value("${server.port}")
+    private String port;
+
+    @Value("${ip}")
+    private String ip;
+
+    @Value("${user.default-avatar-name}")
+    private String defaultAvatarName;
 
     /**
      * 添加用户
@@ -51,7 +62,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         user.setMember(MemberEnum.NO.info);
         user.setRole(RoleEnum.USER.name());
-        getBaseMapper().insert(user);
+        // 设置默认头像
+        if (ObjectUtil.isEmpty(user.getAvatar())) {
+            // 下载路径
+            String http = "http://" + ip + ":" + port + "/files/";
+            user.setAvatar(http + defaultAvatarName);
+        }
+        if (getBaseMapper().insert(user) == 0) {
+            throw new CustomException(ResultCodeEnum.FAIL.code, ResultCodeEnum.FAIL.msg);
+        }
     }
 
     /**
@@ -175,5 +194,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         dbUser.setPassword(account.getNewPassword());
         getBaseMapper().updateById(dbUser);
+    }
+
+    /**
+     * 注册
+     *
+     * @param account 账户
+     */
+    @Override
+    public void register(Account account) {
+        User user = new User();
+        BeanUtils.copyProperties(account, user);
+        add(user);
     }
 }

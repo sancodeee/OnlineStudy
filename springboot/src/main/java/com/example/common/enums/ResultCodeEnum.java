@@ -8,6 +8,7 @@ package com.example.common.enums;
  */
 public enum ResultCodeEnum {
     SUCCESS("200", "成功"),
+    FAIL("500", "失败"),
 
     PARAM_ERROR("400", "参数异常"),
     TOKEN_INVALID_ERROR("401", "无效的token"),

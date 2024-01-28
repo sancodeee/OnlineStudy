@@ -56,6 +56,11 @@ export default {
           this.$request.post('/login', this.form).then(res => {
             if (res.code === '200') {
               localStorage.setItem("xm-user", JSON.stringify(res.data))  // 存储用户数据
+              if (res.data.role === 'ADMIN') {
+                location.href = '/home'
+              } else {
+                location.href = '/front/home'
+              }
               this.$router.push('/')  // 跳转主页
               this.$message.success('登录成功')
             } else {

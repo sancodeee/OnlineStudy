@@ -14,7 +14,7 @@
     <div class="table">
       <el-table :data="tableData" strip @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="id" label="序号" width="70" align="center" sortable></el-table-column>
+        <el-table-column prop="id" label="用户ID" width="80" align="center" sortable></el-table-column>
         <el-table-column label="头像">
           <template v-slot="scope">
             <div style="display: flex; align-items: center">
@@ -27,10 +27,10 @@
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="role" label="角色"></el-table-column>
-        <el-table-column prop="member" label="会员"></el-table-column>
-        <el-table-column prop="score" label="积分"></el-table-column>
-        <el-table-column prop="account" label="余额"></el-table-column>
+        <el-table-column prop="role" label="角色" align="center"></el-table-column>
+        <el-table-column prop="member" label="会员" align="center"></el-table-column>
+        <el-table-column prop="score" label="积分" align="center"></el-table-column>
+        <el-table-column prop="account" label="余额" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
             <el-button size="mini" type="primary" plain @click="handleEdit(scope.row)">编辑</el-button>

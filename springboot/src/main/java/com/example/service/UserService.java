@@ -71,5 +71,12 @@ public interface UserService extends IService<User> {
      */
     void updatePassword(Account account);
 
+    /**
+     * 注册
+     *
+     * @param account 账户
+     */
+    void register(Account account);
+
 
 }
