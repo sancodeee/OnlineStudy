@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.entity.Account;
 import com.example.entity.User;
 import com.github.pagehelper.PageInfo;
 
@@ -29,6 +30,12 @@ public interface UserService extends IService<User> {
      */
     void deleteBatch(List<Integer> ids);
 
+    /**
+     * 按id查询
+     *
+     * @param id id
+     * @return {@link User}
+     */
     User selectById(Integer id);
 
     /**
@@ -39,7 +46,30 @@ public interface UserService extends IService<User> {
      */
     List<User> selectAll(User user);
 
+    /**
+     * 分页查询
+     *
+     * @param user     用户
+     * @param pageNum  页面num
+     * @param pageSize 页面大小
+     * @return {@link PageInfo}<{@link User}>
+     */
     PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize);
+
+    /**
+     * 用户登录
+     *
+     * @param account 账户
+     * @return {@link Account}
+     */
+    Account login(Account account);
+
+    /**
+     * 更新密码
+     *
+     * @param account 账户
+     */
+    void updatePassword(Account account);
 
 
 }

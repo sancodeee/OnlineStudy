@@ -6,7 +6,8 @@ import com.example.common.Result;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
-import com.example.service.impl.AdminServiceImpl;
+import com.example.service.AdminService;
+import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +20,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class WebController {
 
-    private final AdminServiceImpl adminServiceImpl;
+    private final AdminService adminService;
+
+    private final UserService userService;
 
     @Autowired
-    public WebController(AdminServiceImpl adminServiceImpl) {
-        this.adminServiceImpl = adminServiceImpl;
+    public WebController(AdminService adminService, UserService userService) {
+        this.adminService = adminService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -40,8 +44,13 @@ public class WebController {
                 || ObjectUtil.isEmpty(account.getRole())) {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
         }
+        // 管理员登录
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
-            account = adminServiceImpl.login(account);
+            account = adminService.login(account);
+        }
+        // 普通用户登录
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            account = userService.login(account);
         }
         return Result.success(account);
     }
@@ -57,13 +66,16 @@ public class WebController {
         }
         // 校验注册用户是否是管理员
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
-            adminServiceImpl.register(account);
+            adminService.register(account);
         }
         return Result.success();
     }
 
     /**
      * 修改密码
+     *
+     * @param account 账户
+     * @return {@link Result}<{@link ?}>
      */
     @PutMapping("/updatePassword")
     public Result<?> updatePassword(@RequestBody Account account) {
@@ -72,7 +84,10 @@ public class WebController {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
         }
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
-            adminServiceImpl.updatePassword(account);
+            adminService.updatePassword(account);
+        }
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            userService.updatePassword(account);
         }
         return Result.success();
     }

@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +25,7 @@ public class Notice implements Serializable {
     /**
      * ID
      */
+    @TableId(type = IdType.AUTO)
     private Integer id;
     /**
      * 标题
