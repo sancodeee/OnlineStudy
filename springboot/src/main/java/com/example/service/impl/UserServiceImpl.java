@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.Constants;
@@ -34,6 +35,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Value("${ip}")
     private String ip;
 
+    /**
+     * 默认头像
+     */
     @Value("${user.default-avatar-name}")
     private String defaultAvatarName;
 
@@ -54,16 +58,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new CustomException(ResultCodeEnum.USER_EXIST_ERROR);
         }
         // 初始化用户没有填写的信息
-        if (ObjectUtil.isEmpty(user.getPassword())) {
+        if (StrUtil.isBlank(user.getPassword())) {
+            // 新增用户是填充默认密码
             user.setPassword(Constants.USER_DEFAULT_PASSWORD);
         }
-        if (ObjectUtil.isEmpty(user.getName())) {
+        if (StrUtil.isBlank(user.getName())) {
             user.setName(user.getUsername());
         }
         user.setMember(MemberEnum.NO.info);
         user.setRole(RoleEnum.USER.name());
         // 设置默认头像
-        if (ObjectUtil.isEmpty(user.getAvatar())) {
+        if (StrUtil.isBlank(user.getAvatar())) {
             // 下载路径
             String http = "http://" + ip + ":" + port + "/files/";
             user.setAvatar(http + defaultAvatarName);
