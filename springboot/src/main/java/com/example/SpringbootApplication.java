@@ -14,7 +14,6 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @MapperScan("com.example.mapper")
 public class SpringbootApplication {
-
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext context = SpringApplication.run(SpringbootApplication.class, args);
         ConfigurableEnvironment environment = context.getEnvironment();
@@ -26,5 +25,4 @@ public class SpringbootApplication {
         log.info("-local:{}", localPath);
         log.info("-Network:{}", networkPath);
     }
-
 }
