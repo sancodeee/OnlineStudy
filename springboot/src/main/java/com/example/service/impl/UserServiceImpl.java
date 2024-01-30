@@ -1,8 +1,8 @@
 package com.example.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.Constants;
@@ -15,8 +15,8 @@ import com.example.exception.CustomException;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 import com.example.utils.TokenUtils;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.page.PageMethod;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,26 +49,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void add(User user) {
         // 判空
-        if (ObjectUtil.isEmpty(user)) {
+        Optional.ofNullable(user).ifPresent(u -> {
             throw new CustomException(ResultCodeEnum.PARAM_ERROR.code, ResultCodeEnum.RESOURCE_ERROR.msg);
-        }
+        });
         // 判断用户是否存在库中
-        User dbUser = getBaseMapper().selectByUserName(user.getName());
-        if (ObjectUtil.isNotEmpty(dbUser)) {
+        User dbUser = getBaseMapper().selectByUserName(user.getUsername());
+        Optional.ofNullable(dbUser).ifPresent(u -> {
             throw new CustomException(ResultCodeEnum.USER_EXIST_ERROR);
-        }
+        });
         // 初始化用户没有填写的信息
-        if (StrUtil.isBlank(user.getPassword())) {
+        if (CharSequenceUtil.isBlank(user.getPassword())) {
             // 新增用户是填充默认密码
             user.setPassword(Constants.USER_DEFAULT_PASSWORD);
         }
-        if (StrUtil.isBlank(user.getName())) {
+        if (CharSequenceUtil.isBlank(user.getName())) {
             user.setName(user.getUsername());
         }
         user.setMember(MemberEnum.NO.info);
         user.setRole(RoleEnum.USER.name());
         // 设置默认头像
-        if (StrUtil.isBlank(user.getAvatar())) {
+        if (CharSequenceUtil.isBlank(user.getAvatar())) {
             // 下载路径
             String http = "http://" + ip + ":" + port + "/files/";
             user.setAvatar(http + defaultAvatarName);
@@ -156,7 +156,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+        PageMethod.startPage(pageNum, pageSize);
         List<User> userList = selectAll(user);
         return PageInfo.of(userList);
     }

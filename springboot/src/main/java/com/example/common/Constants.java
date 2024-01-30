@@ -8,8 +8,14 @@ package com.example.common;
  */
 public interface Constants {
 
+    /**
+     * 令牌
+     */
     String TOKEN = "token";
 
+    /**
+     * 用户默认密码
+     */
     String USER_DEFAULT_PASSWORD = "123456";
 
 }

@@ -25,7 +25,7 @@ public class FileServiceImpl implements FileService {
     // 文件上传存储路径
     private static final String basePath = System.getProperty("user.dir") + File.separator + "files" + File.separator;
 
-    @Value("${server.port}")
+    @Value("${server.port:9090}")
     private String port;
 
     @Value("${ip}")
@@ -86,7 +86,6 @@ public class FileServiceImpl implements FileService {
                 response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
                 response.setContentType("application/octet-stream");
                 String downloadPath = basePath + fileName;
-                log.info("下载路径：{}", downloadPath);
                 byte[] bytes = FileUtil.readBytes(downloadPath);
                 os = response.getOutputStream();
                 os.write(bytes);

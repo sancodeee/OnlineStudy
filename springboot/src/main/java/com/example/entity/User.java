@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -26,6 +27,7 @@ public class User extends Account implements Serializable {
     /**
      * 用户名
      */
+    @NotNull(message = "用户名不能为空")
     private String username;
     /**
      * 密码
