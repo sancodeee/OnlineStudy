@@ -49,9 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void add(User user) {
         // 判空
-        Optional.ofNullable(user).ifPresent(u -> {
-            throw new CustomException(ResultCodeEnum.PARAM_ERROR.code, ResultCodeEnum.RESOURCE_ERROR.msg);
-        });
+        Optional.ofNullable(user).orElseThrow(() -> new CustomException(ResultCodeEnum.PARAM_ERROR.code, ResultCodeEnum.RESOURCE_ERROR.msg));
         // 判断用户是否存在库中
         User dbUser = getBaseMapper().selectByUserName(user.getUsername());
         Optional.ofNullable(dbUser).ifPresent(u -> {
