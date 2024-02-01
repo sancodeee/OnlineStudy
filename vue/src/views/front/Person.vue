@@ -28,6 +28,15 @@
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="user.email" placeholder="邮箱"></el-input>
         </el-form-item>
+        <el-form-item label="会员" prop="member">
+          <el-input v-model="user.member" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="积分" prop="score">
+          <el-input v-model="user.score"  disabled></el-input>
+        </el-form-item>
+        <el-form-item label="余额" prop="account">
+          <el-input v-model="user.account" disabled></el-input>
+        </el-form-item>
         <div style="text-align: center; margin-bottom: 20px">
           <el-button type="primary" @click="update">保 存</el-button>
         </div>
