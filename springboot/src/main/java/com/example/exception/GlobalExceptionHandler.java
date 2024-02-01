@@ -22,9 +22,8 @@ public class GlobalExceptionHandler {
     /**
      * 统一异常处理@ExceptionHandler,主要用于Exception
      *
-     * @param request 请求
-     * @param e       e
-     * @return {@link Result}
+     * @param e e
+     * @return {@link Result}<{@link ?}>
      */
     @ExceptionHandler(Exception.class)
     public Result<?> error(Exception e) {
@@ -35,8 +34,7 @@ public class GlobalExceptionHandler {
     /**
      * 自定义错误
      *
-     * @param request 请求
-     * @param e       e
+     * @param e e
      * @return {@link Result}<{@link ?}>
      */
     @ExceptionHandler(CustomException.class)

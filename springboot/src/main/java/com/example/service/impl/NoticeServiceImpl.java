@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.Account;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 公告信息表业务处理
@@ -75,7 +77,15 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
      * 查询符合条件的所有
      */
     public List<Notice> selectAll(Notice notice) {
-        return noticeMapper.selectAll(notice);
+        // 判空
+        Optional.ofNullable(notice).orElseThrow(() -> new CustomException(ResultCodeEnum.PARAM_ERROR));
+        LambdaQueryWrapper<Notice> queryWrapper = new LambdaQueryWrapper<>();
+        Optional.ofNullable(notice.getId()).ifPresent(id -> queryWrapper.eq(Notice::getId, id));
+        Optional.ofNullable(notice.getTime()).ifPresent(time -> queryWrapper.eq(Notice::getTime, time));
+        Optional.ofNullable(notice.getTitle()).ifPresent(title -> queryWrapper.like(Notice::getTitle, title));
+        Optional.ofNullable(notice.getContent()).ifPresent(content -> queryWrapper.eq(Notice::getContent, content));
+        Optional.ofNullable(notice.getUser()).ifPresent(user -> queryWrapper.eq(Notice::getUser, user));
+        return getBaseMapper().selectList(queryWrapper);
     }
 
     /**

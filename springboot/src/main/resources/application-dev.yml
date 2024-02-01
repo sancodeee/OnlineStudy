@@ -1,6 +1,5 @@
 server:
   port: 9090
-
 # 数据库配置
 spring:
   datasource:
@@ -12,7 +11,12 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-
+# 监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 # 配置mybatis实体和xml映射
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -20,8 +24,7 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
-
-# 分页
+# 分页插件
 pagehelper:
   helper-dialect: mysql
   reasonable: true
@@ -35,6 +38,8 @@ ip: localhost
 user:
   default-avatar-name: defaultAvatar2.png
 
+# jwt配置
 jwt:
   # jwt开关
   flag: true
+

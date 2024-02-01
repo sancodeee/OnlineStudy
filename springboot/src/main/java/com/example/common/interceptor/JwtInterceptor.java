@@ -54,7 +54,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         String token = getTokenFromRequest(request);
         // 2. 开始执行认证
         if (CharSequenceUtil.isBlank(token)) {
-            throw new CustomException(ResultCodeEnum.TOKEN_INVALID_ERROR);
+            throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);
         }
         // 3、解析token并获取账户信息
         Account account = parseTokenAndGetAccount(token);
