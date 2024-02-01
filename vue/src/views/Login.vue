@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div style="width: 400px; padding: 30px; background-color: white; border-radius: 5px;">
+    <div style="width: 450px; padding: 30px; background-color: white; border-radius: 5px;">
       <div style="text-align: center; font-size: 20px; margin-bottom: 20px; color: #333">欢迎登录在线学习系统</div>
       <el-form :model="form" :rules="rules" ref="formRef">
         <el-form-item prop="username">
