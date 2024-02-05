@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 公告信息表前端操作接口
+ * 公告信息表接口
  *
  * @author wangsen_a
  * @date 2024/01/18

@@ -11,6 +11,12 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+/**
+ * 用户实体
+ *
+ * @author wangsen_a
+ * @date 2024/02/05
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

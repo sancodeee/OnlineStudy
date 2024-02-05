@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 基础前端接口
+ * 登录注册接口
  *
  * @author wangsen
  * @date 2024/01/14
@@ -37,6 +37,9 @@ public class WebController {
 
     /**
      * 登录
+     *
+     * @param account 账户
+     * @return {@link Result}<{@link ?}>
      */
     @PostMapping("/login")
     public Result<?> login(@RequestBody Account account) {
@@ -57,6 +60,9 @@ public class WebController {
 
     /**
      * 注册
+     *
+     * @param account 账户
+     * @return {@link Result}<{@link ?}>
      */
     @PostMapping("/register")
     public Result<?> register(@RequestBody Account account) {

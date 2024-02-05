@@ -16,7 +16,6 @@ import java.io.Serializable;
  * @author wangsen
  * @date 2024/01/15
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
