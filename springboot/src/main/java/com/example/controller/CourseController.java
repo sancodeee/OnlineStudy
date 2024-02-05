@@ -4,9 +4,9 @@ import com.example.common.Result;
 import com.example.entity.Course;
 import com.example.service.CourseService;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,8 +19,12 @@ import java.util.List;
 @RequestMapping("/course")
 public class CourseController {
 
-    @Resource
-    private CourseService courseService;
+    private final CourseService courseService;
+
+    @Autowired
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     /**
      * 新增
@@ -54,8 +58,10 @@ public class CourseController {
      */
     @PutMapping("/update")
     public Result<?> updateById(@RequestBody Course course) {
-        courseService.updateById(course);
-        return Result.success();
+        if (courseService.updateById(course)) {
+            return Result.success();
+        }
+        return Result.error("500", "更新失败");
     }
 
     /**
