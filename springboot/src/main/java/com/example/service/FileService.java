@@ -1,9 +1,9 @@
 package com.example.service;
 
-import com.example.common.Result;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 public interface FileService {
 
@@ -14,6 +14,14 @@ public interface FileService {
      * @return {@link String}
      */
     String upload(MultipartFile multipartFile);
+
+    /**
+     * wang-editor编辑器文件上传
+     *
+     * @param multipartFile 多部分文件
+     * @return {@link Map}<{@link String}, {@link Object}>
+     */
+    Map<String, Object> wangEditUpload(MultipartFile multipartFile);
 
     /**
      * 获取文件

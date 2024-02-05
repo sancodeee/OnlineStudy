@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * 文件接口
@@ -40,6 +41,16 @@ public class FileController {
         String downloadPath = fileService.upload(file);
         log.info("路径：" + downloadPath);
         return Result.success(downloadPath);
+    }
+
+    /**
+     * wang-editor编辑器文件上传接口
+     *
+     * @param file 文件
+     * @return {@link Map}<{@link String}, {@link Object}>
+     */
+    public Map<String, Object> wangEditorUpload(MultipartFile file) {
+        return null;
     }
 
     /**

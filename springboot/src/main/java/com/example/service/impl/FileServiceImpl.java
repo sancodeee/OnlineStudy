@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -69,6 +70,11 @@ public class FileServiceImpl implements FileService {
         String http = "http://" + ip + ":" + port + "/files/";
         // http://localhost:9090/files/1697438073596-avatar.png
         return http + fileName;
+    }
+
+    @Override
+    public Map<String, Object> wangEditUpload(MultipartFile multipartFile) {
+        return null;
     }
 
     /**
