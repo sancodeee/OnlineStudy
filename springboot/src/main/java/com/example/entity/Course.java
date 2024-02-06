@@ -27,7 +27,7 @@ public class Course implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
     /**
-     * img
+     * img图片链接
      */
     private String img;
     /**

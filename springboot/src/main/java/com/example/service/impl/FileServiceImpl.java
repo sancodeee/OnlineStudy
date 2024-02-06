@@ -1,6 +1,8 @@
 package com.example.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.controller.FileController;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -72,9 +75,37 @@ public class FileServiceImpl implements FileService {
         return http + fileName;
     }
 
+    /**
+     * 富文本编辑器文件上传
+     *
+     * @param multipartFile 多部分文件
+     * @return {@link Map}<{@link String}, {@link Object}>
+     */
     @Override
     public Map<String, Object> wangEditUpload(MultipartFile multipartFile) {
-        return null;
+        String flag = System.currentTimeMillis() + "";
+        String originalFilename = multipartFile.getOriginalFilename();
+        String fileName = "";
+        try {
+            // 文件保存路径
+            if (!FileUtil.isDirectory(basePath)) {
+                // 不存在则创建一个
+                FileUtil.mkdir(basePath);
+            }
+            // 文件存储形式：时间戳-文件名
+            fileName = flag + "-" + originalFilename;
+            FileUtil.writeBytes(multipartFile.getBytes(), basePath + fileName);
+            log.info("{}--上传成功", originalFilename);
+            Thread.sleep(1L);
+        } catch (Exception e) {
+            log.info("{}--文件上传失败", originalFilename);
+        }
+        String http = "http://" + ip + ":" + port + "/files/";
+        Map<String, Object> resMap = new HashMap<>();
+        // wangEditor上传图片成功后， 需要返回的参数
+        resMap.put("errno", 0);
+        resMap.put("data", CollUtil.newArrayList(Dict.create().set("url", http + fileName)));
+        return resMap;
     }
 
     /**
@@ -104,6 +135,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 删除文件
+     *
+     * @param fileName 文件名称
+     * @return boolean
+     */
     @Override
     public boolean delFile(String fileName) {
         if (!FileUtil.del(basePath + fileName)) {

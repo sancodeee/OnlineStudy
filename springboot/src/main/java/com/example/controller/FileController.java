@@ -44,16 +44,6 @@ public class FileController {
     }
 
     /**
-     * wang-editor编辑器文件上传接口
-     *
-     * @param file 文件
-     * @return {@link Map}<{@link String}, {@link Object}>
-     */
-    public Map<String, Object> wangEditorUpload(MultipartFile file) {
-        return null;
-    }
-
-    /**
      * 获取文件
      *
      * @param response 响应
@@ -76,6 +66,17 @@ public class FileController {
         }
         fileService.delFile(fileName);
         return Result.success();
+    }
+
+    /**
+     * wang-editor编辑器文件上传接口
+     *
+     * @param file 文件
+     * @return {@link Map}<{@link String}, {@link Object}>
+     */
+    @PostMapping("/wang/upload")
+    public Map<String, Object> wangEditorUpload(MultipartFile file) {
+        return fileService.wangEditUpload(file);
     }
 
 
