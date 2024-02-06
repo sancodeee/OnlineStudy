@@ -39,7 +39,7 @@ public class FileController {
     @PostMapping("/upload")
     public Result<?> upload(MultipartFile file) {
         String downloadPath = fileService.upload(file);
-        log.info("路径：" + downloadPath);
+        log.info("下载路径：" + downloadPath);
         return Result.success(downloadPath);
     }
 

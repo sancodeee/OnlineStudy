@@ -3,22 +3,23 @@ package com.example.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Dict;
-import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.StrUtil;
-import com.example.controller.FileController;
-import com.example.entity.Account;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.example.exception.CustomException;
 import com.example.service.FileService;
-import com.example.utils.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,15 +27,30 @@ import java.util.Map;
 @Slf4j
 public class FileServiceImpl implements FileService {
 
-    // 文件上传存储路径
-    private static final String basePath = System.getProperty("user.dir") + File.separator + "files" + File.separator;
-
     @Value("${server.port:9090}")
     private String port;
 
     @Value("${ip}")
     private String ip;
 
+    /**
+     * 文件上传存储路径
+     */
+    private static String BASE_PATH;
+
+    /**
+     * 下载api
+     */
+    private static String DOWNLOAD_API;
+
+    /**
+     * 初始化
+     */
+    @PostConstruct
+    public void init() {
+        BASE_PATH = System.getProperty("user.dir") + File.separator + "files" + File.separator;
+        DOWNLOAD_API = "http://" + ip + ":" + port + "/files/";
+    }
 
     /**
      * 上传
@@ -44,35 +60,24 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public String upload(MultipartFile multipartFile) {
-        // 文件路径构成：basePath + username文件夹 + 文件本体
-        // 获取当前用户信息
-        Account currentUser = TokenUtils.getCurrentUser();
-        String flag;
-        synchronized (FileController.class) {
-            flag = String.valueOf(System.currentTimeMillis());
-            ThreadUtil.sleep(1L);
-        }
+        String flag = String.valueOf(Instant.now().toEpochMilli());
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = "";
         try {
             // 文件保存路径
-            if (!FileUtil.isDirectory(basePath)) {
-                // 不存在则创建一个
-                FileUtil.mkdir(basePath);
-            }
-            // 文件存储形式：时间戳-文件名
-            // ***/files/username/1697438073596-avatar.png
-            fileName = flag + "-" + originalFilename;
+            Path filePath = Paths.get(BASE_PATH, flag + "-" + originalFilename);
+            Files.createDirectories(filePath.getParent());
             // 保存文件
-            FileUtil.writeBytes(multipartFile.getBytes(), basePath + fileName);
+            try (OutputStream outputStream = Files.newOutputStream(filePath)) {
+                outputStream.write(multipartFile.getBytes());
+            }
             log.info("{}--上传成功", originalFilename);
+            // 返回文件下载链接
+            return DOWNLOAD_API + filePath.getFileName().toString();
         } catch (Exception e) {
-            log.info("{}--文件上传失败", originalFilename);
+            log.error("{}--文件上传失败", originalFilename, e);
+            return "文件上传失败";
         }
-        // 下载接口api
-        String http = "http://" + ip + ":" + port + "/files/";
-        // http://localhost:9090/files/1697438073596-avatar.png
-        return http + fileName;
     }
 
     /**
@@ -83,28 +88,29 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public Map<String, Object> wangEditUpload(MultipartFile multipartFile) {
-        String flag = System.currentTimeMillis() + "";
+        String flag = String.valueOf(Instant.now().toEpochMilli());
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = "";
         try {
             // 文件保存路径
-            if (!FileUtil.isDirectory(basePath)) {
+            if (!FileUtil.isDirectory(BASE_PATH)) {
                 // 不存在则创建一个
-                FileUtil.mkdir(basePath);
+                FileUtil.mkdir(BASE_PATH);
             }
             // 文件存储形式：时间戳-文件名
             fileName = flag + "-" + originalFilename;
-            FileUtil.writeBytes(multipartFile.getBytes(), basePath + fileName);
+            FileUtil.writeBytes(multipartFile.getBytes(), BASE_PATH + fileName);
             log.info("{}--上传成功", originalFilename);
-            Thread.sleep(1L);
+            Thread.sleep(2L);
         } catch (Exception e) {
             log.info("{}--文件上传失败", originalFilename);
+            // 中断线程
+            Thread.currentThread().interrupt();
         }
-        String http = "http://" + ip + ":" + port + "/files/";
         Map<String, Object> resMap = new HashMap<>();
         // wangEditor上传图片成功后， 需要返回的参数
         resMap.put("errno", 0);
-        resMap.put("data", CollUtil.newArrayList(Dict.create().set("url", http + fileName)));
+        resMap.put("data", CollUtil.newArrayList(Dict.create().set("url", DOWNLOAD_API + fileName)));
         return resMap;
     }
 
@@ -118,11 +124,10 @@ public class FileServiceImpl implements FileService {
     public void avatarPath(String fileName, HttpServletResponse response) {
         OutputStream os;
         try {
-            Account currentUser = TokenUtils.getCurrentUser();
-            if (StrUtil.isNotEmpty(fileName)) {
+            if (CharSequenceUtil.isNotEmpty(fileName)) {
                 response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
                 response.setContentType("application/octet-stream");
-                String downloadPath = basePath + fileName;
+                String downloadPath = BASE_PATH + fileName;
                 byte[] bytes = FileUtil.readBytes(downloadPath);
                 os = response.getOutputStream();
                 os.write(bytes);
@@ -143,7 +148,7 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public boolean delFile(String fileName) {
-        if (!FileUtil.del(basePath + fileName)) {
+        if (!FileUtil.del(BASE_PATH + fileName)) {
             log.error("删除文件" + fileName + "失败");
             throw new CustomException("500", "删除失败");
         }
