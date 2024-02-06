@@ -4,15 +4,15 @@
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left">
-        <img src="@/assets/imgs/logo.png" alt="">
-        <div class="title">项目前台</div>
+        <img src="@/assets/imgs/logo2.png" alt="">
+        <div class="title">在线学习平台</div>
       </div>
       <div class="front-header-center">
         <div class="front-header-nav">
           <el-menu :default-active="$route.path" mode="horizontal" router>
-						<el-menu-item index="/front/home">首页</el-menu-item>
-						<el-menu-item index="/front/person">个人中心</el-menu-item>
-            <el-menu-item index="/course">课程信息</el-menu-item>
+            <el-menu-item index="/front/home">首页</el-menu-item>
+            <el-menu-item index="/front/person">个人中心</el-menu-item>
+            <el-menu-item index="">课程信息</el-menu-item>
           </el-menu>
         </div>
       </div>
@@ -25,7 +25,7 @@
           <el-dropdown>
             <div class="front-header-dropdown">
               <img :src="user.avatar" alt="">
-              <div style="margin-left: 10px">
+              <div style="margin-left: 10px; color: white">
                 <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
               </div>
             </div>
@@ -40,7 +40,7 @@
     </div>
     <!--主体-->
     <div class="main-body">
-      <router-view ref="child" @update:user="updateUser" />
+      <router-view ref="child" @update:user="updateUser"/>
     </div>
   </div>
 
@@ -51,7 +51,7 @@
 export default {
   name: "FrontLayout",
 
-  data () {
+  data() {
     return {
       top: '',
       notice: [],
@@ -93,5 +93,5 @@ export default {
 </script>
 
 <style scoped>
-  @import "@/assets/css/front.css";
+@import "@/assets/css/front.css";
 </style>

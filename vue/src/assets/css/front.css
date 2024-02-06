@@ -8,7 +8,7 @@
     height: 60px;
     line-height: 60px;
     border-bottom: 1px solid #eee;
-    background: white;
+    background: #FE7843;
 }
 .front-header-left {
     width: 350px;
@@ -23,7 +23,7 @@
 }
 .front-header-left .title {
     flex: 1;
-    color: #355476;
+    color: white;
     cursor: pointer;
     margin-left: 10px;
     font-size: 20px;
@@ -31,6 +31,7 @@
 }
 .front-header-center {
     flex: 1;
+    overflow: hidden !important;
 }
 .front-header-right {
     width: 200px;
@@ -56,4 +57,18 @@
 .el-menu.el-menu--horizontal {
     border: none !important;
     height: 59px;
+}
+
+.el-menu-item {
+    background-color: #FE7843 !important;
+    color: white !important;
+}
+
+.el-menu {
+    background-color: #FE7843;
+}
+
+.el-menu-item.is-active {
+    background-color: #FE7843 !important;
+    font-weight: 550;
 }
