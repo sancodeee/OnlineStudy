@@ -47,7 +47,7 @@ public class FileServiceImpl implements FileService {
      * 初始化
      */
     @PostConstruct
-    public void init() {
+    public synchronized void init() {
         BASE_PATH = System.getProperty("user.dir") + File.separator + "files" + File.separator;
         DOWNLOAD_API = "http://" + ip + ":" + port + "/files/";
     }
@@ -62,7 +62,6 @@ public class FileServiceImpl implements FileService {
     public String upload(MultipartFile multipartFile) {
         String flag = String.valueOf(Instant.now().toEpochMilli());
         String originalFilename = multipartFile.getOriginalFilename();
-        String fileName = "";
         try {
             // 文件保存路径
             Path filePath = Paths.get(BASE_PATH, flag + "-" + originalFilename);
