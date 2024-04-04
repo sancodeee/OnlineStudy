@@ -23,7 +23,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @TableName("user")
 public class User extends Account implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3860518323079067954L;
 
     /**
      * ID自增

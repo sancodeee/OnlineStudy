@@ -1,6 +1,8 @@
 package com.example.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.common.enums.ResultCodeEnum;
@@ -85,11 +87,11 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         // 判空
         Optional.ofNullable(notice).orElseThrow(() -> new CustomException(ResultCodeEnum.PARAM_ERROR));
         LambdaQueryWrapper<Notice> queryWrapper = new LambdaQueryWrapper<>();
-        Optional.ofNullable(notice.getId()).ifPresent(id -> queryWrapper.eq(Notice::getId, id));
-        Optional.ofNullable(notice.getTime()).ifPresent(time -> queryWrapper.eq(Notice::getTime, time));
-        Optional.ofNullable(notice.getTitle()).ifPresent(title -> queryWrapper.like(Notice::getTitle, title));
-        Optional.ofNullable(notice.getContent()).ifPresent(content -> queryWrapper.eq(Notice::getContent, content));
-        Optional.ofNullable(notice.getUser()).ifPresent(user -> queryWrapper.eq(Notice::getUser, user));
+        queryWrapper.eq(ObjectUtil.isNotNull(notice.getId()), Notice::getId, notice.getId());
+        queryWrapper.eq(StrUtil.isNotBlank(notice.getTime()), Notice::getTime, notice.getTime());
+        queryWrapper.like(StrUtil.isNotBlank(notice.getTime()), Notice::getTitle, notice.getTitle());
+        queryWrapper.eq(StrUtil.isNotBlank(notice.getContent()), Notice::getContent, notice.getContent());
+        queryWrapper.eq(StrUtil.isNotBlank(notice.getUser()), Notice::getUser, notice.getUser());
         return getBaseMapper().selectList(queryWrapper);
     }
 

@@ -20,7 +20,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @TableName("notice")
 public class Notice implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -3348239690456616946L;
 
     /**
      * ID

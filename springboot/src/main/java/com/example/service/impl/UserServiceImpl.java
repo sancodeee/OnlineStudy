@@ -5,7 +5,6 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.common.Constants;
 import com.example.common.enums.MemberEnum;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
@@ -25,6 +24,8 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.common.enums.CommonCons.USER_DEFAULT_PASSWORD;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
@@ -58,7 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         // 初始化用户没有填写的信息
         if (CharSequenceUtil.isBlank(user.getPassword())) {
             // 新增用户是填充默认密码
-            user.setPassword(Constants.USER_DEFAULT_PASSWORD);
+            user.setPassword(USER_DEFAULT_PASSWORD.msg);
         }
         if (CharSequenceUtil.isBlank(user.getName())) {
             user.setName(user.getUsername());

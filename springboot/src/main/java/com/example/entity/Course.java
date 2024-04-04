@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("course")
 public class Course implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6759031554857831623L;
 
     /**
      * id

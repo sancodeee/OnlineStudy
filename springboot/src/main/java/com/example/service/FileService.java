@@ -5,6 +5,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+/**
+ * 文件服务
+ *
+ * @author wangsen
+ * @date 2024/04/04
+ */
 public interface FileService {
 
     /**

@@ -19,11 +19,11 @@ public class CustomException extends RuntimeException {
     /**
      * 代码
      */
-    private String code;
+    private final String code;
     /**
      * 消息
      */
-    private String msg;
+    private final String msg;
 
     public CustomException(ResultCodeEnum resultCodeEnum) {
         this.code = resultCodeEnum.code;

@@ -22,7 +22,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @TableName("admin")
 public class Admin extends Account implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -3250320640460663883L;
 
     /**
      * ID

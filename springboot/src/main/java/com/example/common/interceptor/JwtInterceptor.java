@@ -5,7 +5,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.example.common.Constants;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
@@ -20,6 +19,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.example.common.enums.CommonCons.TOKEN;
+import static com.example.common.enums.ResultCodeEnum.TOKEN_CHECK_ERROR;
 
 /**
  * jwt拦截器
@@ -54,7 +56,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         String token = getTokenFromRequest(request);
         // 2. 开始执行认证
         if (CharSequenceUtil.isBlank(token)) {
-            throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);
+            throw new CustomException(TOKEN_CHECK_ERROR);
         }
         // 3、解析token并获取账户信息
         Account account = parseTokenAndGetAccount(token);
@@ -70,9 +72,9 @@ public class JwtInterceptor implements HandlerInterceptor {
      * @return {@link String}
      */
     public String getTokenFromRequest(HttpServletRequest request) {
-        String token = request.getHeader(Constants.TOKEN);
+        String token = request.getHeader(TOKEN.msg);
         if (CharSequenceUtil.isBlank(token)) {
-            token = request.getParameter(Constants.TOKEN);
+            token = request.getParameter(TOKEN.msg);
         }
         return token;
     }
@@ -88,7 +90,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         try {
             userRole = JWT.decode(token).getAudience().get(0);
         } catch (Exception e) {
-            throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);
+            throw new CustomException(TOKEN_CHECK_ERROR);
         }
         String userId = userRole.split("-")[0];
         String role = userRole.split("-")[1];
@@ -123,7 +125,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(account.getPassword())).build();
             verifier.verify(token);
         } catch (JWTVerificationException e) {
-            throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);
+            throw new CustomException(TOKEN_CHECK_ERROR);
         }
     }
 

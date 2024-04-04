@@ -1,11 +1,10 @@
 package com.example.utils;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.common.Constants;
 import com.example.common.enums.RoleEnum;
 import com.example.entity.Account;
 import com.example.service.impl.AdminServiceImpl;
@@ -19,6 +18,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+
+import static com.example.common.enums.CommonCons.TOKEN;
 
 /**
  * Token工具类
@@ -65,8 +66,8 @@ public class TokenUtils {
     public static Account getCurrentUser() {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            String token = request.getHeader(Constants.TOKEN);
-            if (StrUtil.isBlank(token)) {
+            String token = request.getHeader(TOKEN.msg);
+            if (CharSequenceUtil.isBlank(token)) {
                 token = request.getParameter("token");
             }
             if (ObjectUtil.isNotEmpty(token)) {

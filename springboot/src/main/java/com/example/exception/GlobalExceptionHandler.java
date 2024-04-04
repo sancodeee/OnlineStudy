@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
      * @return {@link Result}<{@link ?}>
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result<?> JSR303Error(HttpServletRequest request, ConstraintViolationException e) {
+    public Result<?> jsrError(HttpServletRequest request, ConstraintViolationException e) {
         log.error("数据校验异常信息：", e);
         return Result.error(ResultCodeEnum.PARAM_ERROR.code, e.getMessage());
     }

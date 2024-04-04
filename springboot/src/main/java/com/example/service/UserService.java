@@ -7,6 +7,12 @@ import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
+/**
+ * 用户服务
+ *
+ * @author wangsen
+ * @date 2024/04/04
+ */
 public interface UserService extends IService<User> {
 
     /**
