@@ -35,6 +35,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     /**
      * 新增
      */
+    @Override
     public void add(Course course) {
         if (courseMapper.insert(course) == 0) {
             throw new CustomException("500", "新增失败");
@@ -44,6 +45,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     /**
      * 删除
      */
+    @Override
     public void deleteById(Integer id) {
         if (courseMapper.deleteById(id) == 0) {
             throw new CustomException("500", "删除失败");
@@ -53,6 +55,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     /**
      * 批量删除
      */
+    @Override
     public void deleteBatch(List<Integer> ids) {
         if (courseMapper.deleteBatchIds(ids) == 0) {
             throw new CustomException("500", "批量删除失败");
@@ -62,6 +65,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     /**
      * 根据ID查询
      */
+    @Override
     public Course selectById(Integer id) {
         // 如果查询不到结果，则返回一个空course对象
         return Optional.ofNullable(courseMapper.selectById(id)).orElse(new Course());
@@ -70,6 +74,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     /**
      * 查询所有
      */
+    @Override
     public List<Course> selectAll(Course course) {
         // 判空
         Optional.ofNullable(course).orElseThrow(() -> new CustomException(ResultCodeEnum.PARAM_ERROR));
@@ -85,6 +90,7 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     /**
      * 分页查询
      */
+    @Override
     public PageInfo<Course> selectPage(Course course, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Course> courses = this.selectAll(course);

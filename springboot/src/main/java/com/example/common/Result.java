@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * 结果
+ * 统一响应体
  *
  * @author wangsen
  * @date 2024/01/14

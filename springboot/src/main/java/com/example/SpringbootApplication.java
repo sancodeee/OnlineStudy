@@ -9,6 +9,12 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * springboot启动程序
+ *
+ * @author wangsen
+ * @date 2024/04/04
+ */
 @Slf4j
 @SpringBootApplication
 public class SpringbootApplication {

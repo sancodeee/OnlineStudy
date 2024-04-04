@@ -35,6 +35,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 新增
      */
+    @Override
     public void add(Notice notice) {
         notice.setTime(DateUtil.today());
         Account currentUser = TokenUtils.getCurrentUser();
@@ -47,6 +48,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 删除
      */
+    @Override
     public void deleteById(Integer id) {
         if (noticeMapper.deleteById(id) == 0) {
             throw new CustomException("500", "删除失败");
@@ -56,6 +58,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 批量删除
      */
+    @Override
     public void deleteBatch(List<Integer> ids) {
         if (noticeMapper.deleteBatchIds(ids) == 0) {
             throw new CustomException("500", "批量删除失败");
@@ -65,6 +68,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 根据ID查询
      */
+    @Override
     public Notice selectById(Integer id) {
         Notice notice = noticeMapper.selectById(id);
         if (ObjectUtils.isEmpty(notice)) {
@@ -76,6 +80,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 查询符合条件的所有
      */
+    @Override
     public List<Notice> selectAll(Notice notice) {
         // 判空
         Optional.ofNullable(notice).orElseThrow(() -> new CustomException(ResultCodeEnum.PARAM_ERROR));
@@ -91,6 +96,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     /**
      * 分页查询
      */
+    @Override
     public PageInfo<Notice> selectPage(Notice notice, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Notice> list = noticeMapper.selectAll(notice);

@@ -1,7 +1,7 @@
 package com.example.common;
 
 /**
- * 常量
+ * 公共常量
  *
  * @author wangsen
  * @date 2024/01/14

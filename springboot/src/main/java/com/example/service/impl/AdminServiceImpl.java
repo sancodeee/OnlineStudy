@@ -35,6 +35,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     /**
      * 新增
      */
+    @Override
     public void add(Admin admin) {
         Admin dbAdmin = adminMapper.selectByUsername(admin.getUsername());
         if (ObjectUtil.isNotNull(dbAdmin)) {
@@ -53,6 +54,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     /**
      * 删除
      */
+    @Override
     public void deleteById(Integer id) {
         adminMapper.deleteById(id);
     }
@@ -60,6 +62,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     /**
      * 批量删除
      */
+    @Override
     public void deleteBatch(List<Integer> ids) {
         for (Integer id : ids) {
             adminMapper.deleteById(id);
@@ -69,6 +72,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     /**
      * 根据ID查询
      */
+    @Override
     public Admin selectById(Integer id) {
         return adminMapper.selectById(id);
     }
@@ -76,6 +80,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     /**
      * 查询所有
      */
+    @Override
     public List<Admin> selectAll(Admin admin) {
         return adminMapper.selectAll(admin);
     }
@@ -83,6 +88,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     /**
      * 分页查询
      */
+    @Override
     public PageInfo<Admin> selectPage(Admin admin, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Admin> list = adminMapper.selectAll(admin);
@@ -95,6 +101,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @param account 账户
      * @return {@link Account}
      */
+    @Override
     public Account login(Account account) {
         Account dbAdmin = adminMapper.selectByUsername(account.getUsername());
         // 验证用户是否存在
@@ -118,6 +125,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      *
      * @param account 账户
      */
+    @Override
     public void register(Account account) {
         Admin admin = new Admin();
         BeanUtils.copyProperties(account, admin);
@@ -130,6 +138,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      *
      * @param account 账户
      */
+    @Override
     public void updatePassword(Account account) {
         Admin dbAdmin = adminMapper.selectByUsername(account.getUsername());
         if (ObjectUtil.isNull(dbAdmin)) {
