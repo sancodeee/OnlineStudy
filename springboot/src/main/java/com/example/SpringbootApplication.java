@@ -1,6 +1,7 @@
 package com.example;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -16,6 +17,7 @@ import java.net.UnknownHostException;
  * @date 2024/04/04
  */
 @Slf4j
+@MapperScan(basePackages = "com.example.mapper")
 @SpringBootApplication
 public class SpringbootApplication {
     public static void main(String[] args) throws UnknownHostException {
